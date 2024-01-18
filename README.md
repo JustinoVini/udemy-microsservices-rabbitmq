@@ -13,3 +13,5 @@ docker run --name sales-db -p 27017:27017 -p 28017:28017 -e MONGO_INITDB_ROOT_US
 conexão
 
 mongosh "mongodb://admin:123456@localhost:27017/"
+
+docker run --name sales_rabbit -p 5672:5672 -p 25676:25676 -p 15672:15672 rabbitmq:3-management
