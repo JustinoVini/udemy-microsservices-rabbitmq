@@ -6,18 +6,18 @@ const sequelize = new Sequelize("auth-db", "postgres", "postgres", {
     quoteIdentifiers: false,
     define: {
         syncOnAssociation: true,
-        timeStamps: false,
+        timestamps: false,
         underscored: true,
         underscoredAll: true,
-        freezeTableName: true
+        freezeTableName: true,
     },
 });
 
 sequelize.authenticate().then(() => {
-    console.log('Connection has been stablished!');
-}).catch(err => {
-    console.log("Unabel to connect to the database.");
-    console.log(err.message);
+    console.info("Connection has been stablished!");
+}).catch((err) => {
+    console.error("Unable to connect to the database.");
+    console.error(err.message);
 });
 
 export default sequelize;
