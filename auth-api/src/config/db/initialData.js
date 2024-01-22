@@ -13,6 +13,12 @@ async function createInitialData() {
             password: password,
         });
 
+        await User.create({
+            name: "User test 2",
+            email: "teste2@teste.com",
+            password: password,
+        });
+
         console.log("Data creation successfully!");
     } catch (err) {
         console.error("Error in initial data creation:", err);
