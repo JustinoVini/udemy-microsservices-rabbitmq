@@ -4,7 +4,7 @@ import userRoutes from "./modules/user/routes/userRoutes.js";
 
 const app = express();
 const env = process.env;
-const PORT = env.PORT || 8080;
+const PORT = env.PORT || 8084;
 
 app.use(express.json());
 app.use(userRoutes);
