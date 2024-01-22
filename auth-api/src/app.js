@@ -1,11 +1,10 @@
 import express from "express";
 import createInitialData from "./config/db/initialData.js";
 import userRoutes from "./modules/user/routes/userRoutes.js";
-import checkToken from "./config/auth/checkToken.js";
 
 const app = express();
 const env = process.env;
-const PORT = env.PORT || 8084;
+const PORT = env.PORT || 8080;
 
 app.get("/api/status", (req, res) => {
     return res.status(200).json({
