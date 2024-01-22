@@ -1,4 +1,4 @@
-package br.com.udemy.productapi.modules.produto.model;
+package br.com.udemy.productapi.modules.supplier.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

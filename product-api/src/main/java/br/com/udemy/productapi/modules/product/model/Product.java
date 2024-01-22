@@ -1,5 +1,7 @@
-package br.com.udemy.productapi.modules.produto.model;
+package br.com.udemy.productapi.modules.product.model;
 
+import br.com.udemy.productapi.modules.category.model.Category;
+import br.com.udemy.productapi.modules.supplier.model.Supplier;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

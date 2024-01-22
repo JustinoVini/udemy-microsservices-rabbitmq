@@ -1,4 +1,4 @@
-package br.com.udemy.productapi.controller;
+package br.com.udemy.productapi;
 
 import java.util.HashMap;
 

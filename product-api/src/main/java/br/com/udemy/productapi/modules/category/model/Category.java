@@ -1,5 +1,8 @@
-package br.com.udemy.productapi.modules.produto.model;
+package br.com.udemy.productapi.modules.category.model;
 
+import org.springframework.beans.BeanUtils;
+
+import br.com.udemy.productapi.modules.category.dto.CategoryRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,5 +26,11 @@ public class Category {
 
     @Column(name = "DESCRIPTION", nullable = false)
     private String description;
+
+    public static Category of(CategoryRequest request) {
+        var category = new Category();
+        BeanUtils.copyProperties(request, category);
+        return category;
+    }
 
 }
