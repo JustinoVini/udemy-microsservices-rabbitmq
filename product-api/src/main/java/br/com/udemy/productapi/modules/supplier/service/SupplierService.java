@@ -2,6 +2,9 @@ package br.com.udemy.productapi.modules.supplier.service;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +20,33 @@ public class SupplierService {
     @Autowired
     private SupplierRepository supplierRepository;
 
+    public List<SupplierResponse> findAll() {
+        return supplierRepository
+                .findAll()
+                .stream()
+                .map(SupplierResponse::of)
+                .collect(Collectors.toList());
+    }
+
+    public List<SupplierResponse> findByName(String name) {
+        if (isEmpty(name)) {
+            throw new ValidationException("The supplier name must be informed");
+        }
+        return supplierRepository
+                .findByNameIgnoreCaseContaining(name)
+                .stream()
+                .map(SupplierResponse::of)
+                .collect(Collectors.toList());
+    }
+
+    public SupplierResponse findByIdResponse(Integer id) {
+        return SupplierResponse.of(findById(id));
+    }
+
     public Supplier findById(Integer id) {
+        if (isEmpty(id)) {
+            throw new ValidationException("Supplier ID was not informed");
+        }
         return supplierRepository
                 .findById(id)
                 .orElseThrow(() -> new ValidationException("There's no supplier for the given ID."));
