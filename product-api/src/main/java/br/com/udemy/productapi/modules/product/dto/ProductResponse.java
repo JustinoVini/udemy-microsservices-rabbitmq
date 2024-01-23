@@ -11,14 +11,17 @@ import br.com.udemy.productapi.modules.supplier.dto.SupplierResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ProductResponse {
 
     private Integer id;
     private String name;
+    @JsonProperty("quantity_available")
     private Integer quantityAvailable;
     @JsonProperty("created_at")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
