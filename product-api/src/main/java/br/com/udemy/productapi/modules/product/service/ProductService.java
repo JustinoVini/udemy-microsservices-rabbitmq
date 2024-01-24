@@ -12,13 +12,19 @@ import org.springframework.stereotype.Service;
 import br.com.udemy.productapi.config.exception.SuccessResponse;
 import br.com.udemy.productapi.config.exception.ValidationException;
 import br.com.udemy.productapi.modules.category.service.CategoryService;
+import br.com.udemy.productapi.modules.product.dto.ProductQuantityDTO;
 import br.com.udemy.productapi.modules.product.dto.ProductRequest;
 import br.com.udemy.productapi.modules.product.dto.ProductResponse;
 import br.com.udemy.productapi.modules.product.dto.ProductStockDTO;
 import br.com.udemy.productapi.modules.product.model.Product;
 import br.com.udemy.productapi.modules.product.repository.ProductRepository;
+import br.com.udemy.productapi.modules.sales.dto.SalesConfirmationDTO;
+import br.com.udemy.productapi.modules.sales.enums.SalesStatus;
+import br.com.udemy.productapi.modules.sales.rabbitmq.SalesConfirmationSender;
 import br.com.udemy.productapi.modules.supplier.service.SupplierService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class ProductService {
 
@@ -34,6 +40,9 @@ public class ProductService {
     @Autowired
     @Lazy
     private SupplierService supplierService;
+
+    @Autowired
+    private SalesConfirmationSender salesConfirmationSender;
 
     public List<ProductResponse> findAll() {
         return productRepository
@@ -150,7 +159,48 @@ public class ProductService {
     }
 
     public void updateProductStock(ProductStockDTO product) {
+        try {
+            validateStockUpdateData(product);
+            updateStock(product);
+        } catch (Exception e) {
+            log.error("Error while trying to update stock for message with error: {}", e.getMessage(), e);
+            var rejectedMessage = new SalesConfirmationDTO(product.getSalesId(), SalesStatus.REJECTED);
+            salesConfirmationSender.sendSalesConfirmationMessage(rejectedMessage);
+        }
+    }
 
+    private void validateStockUpdateData(ProductStockDTO product) {
+        if (isEmpty(product) || isEmpty(product.getSalesId())) {
+            throw new ValidationException("The product data or sales ID must be informed");
+        }
+
+        if (isEmpty(product.getProducts())) {
+            throw new ValidationException("The sales products must be informed");
+        }
+
+        product.getProducts().forEach(salesProduct -> {
+            if (isEmpty(salesProduct.getQuantity()) || isEmpty(salesProduct.getProductId())) {
+                throw new ValidationException("The productID and the quantity must be informed");
+            }
+        });
+    }
+
+    private void updateStock(ProductStockDTO product) {
+        product.getProducts().forEach(salesProduct -> {
+            var existingProduct = findById(salesProduct.getProductId());
+            validateQuantityInStock(salesProduct, existingProduct);
+            existingProduct.updateStock(salesProduct.getQuantity());
+            productRepository.save(existingProduct);
+            var approvedMessage = new SalesConfirmationDTO(product.getSalesId(), SalesStatus.APPROVED);
+            salesConfirmationSender.sendSalesConfirmationMessage(approvedMessage);
+        });
+    }
+
+    private void validateQuantityInStock(ProductQuantityDTO salesProduct, Product existingProduct) {
+        if (salesProduct.getQuantity() > existingProduct.getQuantityAvailable()) {
+            throw new ValidationException(
+                    String.format("The product %s is out of stock.", existingProduct.getId()));
+        }
     }
 
 }
