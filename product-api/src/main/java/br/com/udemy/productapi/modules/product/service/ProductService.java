@@ -14,6 +14,7 @@ import br.com.udemy.productapi.config.exception.ValidationException;
 import br.com.udemy.productapi.modules.category.service.CategoryService;
 import br.com.udemy.productapi.modules.product.dto.ProductRequest;
 import br.com.udemy.productapi.modules.product.dto.ProductResponse;
+import br.com.udemy.productapi.modules.product.dto.ProductStockDTO;
 import br.com.udemy.productapi.modules.product.model.Product;
 import br.com.udemy.productapi.modules.product.repository.ProductRepository;
 import br.com.udemy.productapi.modules.supplier.service.SupplierService;
@@ -146,6 +147,10 @@ public class ProductService {
         if (isEmpty(id)) {
             throw new ValidationException("The product ID must be informed");
         }
+    }
+
+    public void updateProductStock(ProductStockDTO product) {
+
     }
 
 }
