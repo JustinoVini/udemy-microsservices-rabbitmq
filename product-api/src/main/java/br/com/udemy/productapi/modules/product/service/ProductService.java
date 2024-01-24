@@ -2,6 +2,7 @@ package br.com.udemy.productapi.modules.product.service;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ import br.com.udemy.productapi.modules.sales.dto.SalesConfirmationDTO;
 import br.com.udemy.productapi.modules.sales.enums.SalesStatus;
 import br.com.udemy.productapi.modules.sales.rabbitmq.SalesConfirmationSender;
 import br.com.udemy.productapi.modules.supplier.service.SupplierService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -185,15 +187,20 @@ public class ProductService {
         });
     }
 
+    @Transactional
     private void updateStock(ProductStockDTO product) {
+        var productsForUpdate = new ArrayList<Product>();
         product.getProducts().forEach(salesProduct -> {
             var existingProduct = findById(salesProduct.getProductId());
             validateQuantityInStock(salesProduct, existingProduct);
             existingProduct.updateStock(salesProduct.getQuantity());
-            productRepository.save(existingProduct);
+            productsForUpdate.add(existingProduct);
+        });
+        if (!isEmpty(productsForUpdate)) {
+            productRepository.saveAll(productsForUpdate);
             var approvedMessage = new SalesConfirmationDTO(product.getSalesId(), SalesStatus.APPROVED);
             salesConfirmationSender.sendSalesConfirmationMessage(approvedMessage);
-        });
+        }
     }
 
     private void validateQuantityInStock(ProductQuantityDTO salesProduct, Product existingProduct) {
