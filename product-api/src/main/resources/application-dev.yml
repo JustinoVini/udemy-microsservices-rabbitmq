@@ -20,6 +20,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  output:
+    ansi:
+      enabled: ALWAYS
 
   sql:
     init:

@@ -2,7 +2,6 @@ package br.com.udemy.productapi.modules.jwt.service;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,8 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    private static final String BEARER = "bearer ";
+    private static final String EMPTY_SPACE = " ";
+    private static final Integer TOKEN_INDEX = 1;
 
     @Value("${app-config.secrets.api-secret}")
     private String apiSecret;
@@ -42,9 +42,8 @@ public class JwtService {
         if (isEmpty(token)) {
             throw new AuthenticationException("The access token was not informed");
         }
-        if (token.toLowerCase().contains(BEARER)) {
-            token = token.toLowerCase();
-            token = token.replace(BEARER, Strings.EMPTY);
+        if (token.contains(EMPTY_SPACE)) {
+            return token.split(EMPTY_SPACE)[TOKEN_INDEX];
         }
         return token;
     }
