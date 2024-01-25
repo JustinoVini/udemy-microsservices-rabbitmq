@@ -1,6 +1,7 @@
 import express from "express";
 
 import { connect } from "./config/db/mongoDbConfig.js";
+import { createInitialData } from "./config/db/initialData.js";
 import Order from "./modules/sales/model/Order.js";
 
 const app = express();
@@ -8,6 +9,7 @@ const env = process.env;
 const PORT = env.PORT || 8082;
 
 connect();
+createInitialData();
 
 app.get("/api/status", async (req, res) => {
     let teste = await Order.find();
