@@ -1,15 +1,17 @@
 import express from "express";
 
-import { connect } from "./config/db/mongoDbConfig.js";
+import { connectMongoDb } from "./config/db/mongoDbConfig.js";
 import { createInitialData } from "./config/db/initialData.js";
 import Order from "./modules/sales/model/Order.js";
 import checkToken from "./config/auth/checkToken.js";
+import { connectRabbitMq } from "./config/rabbitmq/rabbitConfig.js";
 
 const app = express();
 const env = process.env;
 const PORT = env.PORT || 8082;
 
-connect();
+connectMongoDb();
+connectRabbitMq();
 createInitialData();
 
 app.use(checkToken);

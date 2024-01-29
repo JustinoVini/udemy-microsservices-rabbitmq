@@ -4,7 +4,7 @@ import { promisify } from "util";
 import AuthException from "./AuthException.js"
 
 import * as secrets from "../secrets/secrets.js";
-import * as httpStatus from "../httpStatus.js";
+import * as httpStatus from "../secrets/httpStatus.js";
 
 const emptySpace = " ";
 
