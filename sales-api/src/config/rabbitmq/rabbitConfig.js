@@ -1,4 +1,5 @@
 import amqp from "amqplib/callback_api.js";
+import { listenToConfirmationQueue } from "../../modules/sales/rabbitmq/salesConfirmationListener.js";
 
 import * as secrets from "../secrets/secrets.js";
 import * as queue from "./queue.js";
@@ -32,6 +33,7 @@ async function connectRabbitMqAndCreateQueues() {
             connection.close();
         }, HALF_SECOND);
     });
+    listenToConfirmationQueue();
 }
 
 function createQueue(connection, queue, routingKey, topic) {
