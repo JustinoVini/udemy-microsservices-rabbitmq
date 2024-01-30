@@ -15,9 +15,9 @@ connectMongoDb();
 connectRabbitMq();
 createInitialData();
 
-// app.use(checkToken);
+app.use(checkToken);
 
-app.get("/teste", (req, res) => {
+/* app.get("/teste", (req, res) => {
     try {
         sendProductStockUpdateQueue([
             {
@@ -38,7 +38,7 @@ app.get("/teste", (req, res) => {
         console.log(error);
         return res.status(500).json({ error: true })
     }
-})
+}) */
 
 app.get("/api/status", async (req, res) => {
     let teste = await Order.find();
