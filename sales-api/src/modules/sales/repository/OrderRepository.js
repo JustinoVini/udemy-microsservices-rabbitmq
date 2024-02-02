@@ -6,7 +6,7 @@ class OrderRepository {
         try {
             return await Order.create(order);
         } catch (error) {
-            console.log(error);
+            console.error(error.message);
             return null;
         }
     }
@@ -15,7 +15,7 @@ class OrderRepository {
         try {
             return await Order.findById(id);
         } catch (error) {
-            console.log(error);
+            console.error(error.message);
             return null;
         }
     }
@@ -24,11 +24,21 @@ class OrderRepository {
         try {
             return await Order.find();
         } catch (error) {
-            console.log(error);
+            console.error(error.message);
+            return null;
+        }
+    }
+
+    async findByProductId(productId) {
+        try {
+            return await Order.find({
+                "products.productId": Number(productId),
+            });
+        } catch (error) {
+            console.error(error.message);
             return null;
         }
     }
 
 }
-
 export default new OrderRepository();
