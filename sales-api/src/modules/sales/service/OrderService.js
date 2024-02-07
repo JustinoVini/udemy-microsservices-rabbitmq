@@ -27,7 +27,7 @@ class OrderService {
             let createdOrder = await OrderRepository.save(order);
             this.sendMessage(createdOrder, transactionid);
             let response = {
-                status: SUCCESS,
+                status: status.SUCCESS,
                 createdOrder,
             };
             console.info(

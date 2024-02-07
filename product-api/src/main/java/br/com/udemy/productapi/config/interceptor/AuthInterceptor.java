@@ -2,12 +2,14 @@ package br.com.udemy.productapi.config.interceptor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import br.com.udemy.productapi.modules.jwt.service.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@Component
 public class AuthInterceptor implements HandlerInterceptor {
 
     private static final String AUTHORIZATION = "Authorization";

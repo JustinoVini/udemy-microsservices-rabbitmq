@@ -11,7 +11,7 @@ import br.com.udemy.productapi.modules.sales.dto.SalesProductResponse;
 @FeignClient(name = "salesClient", contextId = "salesClient", url = "${app-config.services.sales}")
 public interface SalesClient {
 
-    @GetMapping("products/{productId/}")
+    @GetMapping("/api/orders/product/{productId/}")
     Optional<SalesProductResponse> findSalesByProductId(@PathVariable Integer productId);
 
 }
