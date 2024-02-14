@@ -41,22 +41,37 @@ class UserService {
 
     async getAccessToken(req) {
         try {
+            const { transactionid, serviceid } = req.headers;
+            console.info(
+                `Request to POST login with data ${JSON.stringify(
+                    req.body
+                )} | [transactionID: ${transactionid} | serviceID: ${serviceid}]`
+            );
             const { email, password } = req.body;
             this.validateAccessTokenData(email, password);
             let user = await userRepository.findByEmail(email);
             this.validateUserNotFound(user);
             await this.validatePassword(password, user.password);
-            const authUser = { id: user.id, name: user.name, email: user.email }
-            const accessToken = jwt.sign({ authUser }, secrets.API_SECRET, { expiresIn: '1d' })
-            return {
+            const authUser = { id: user.id, name: user.name, email: user.email };
+            const accessToken = jwt.sign({ authUser }, secrets.API_SECRET, {
+                expiresIn: "1d",
+            });
+
+            let response = {
                 status: httpStatus.SUCCESS,
                 accessToken,
-            }
-        } catch (error) {
+            };
+            console.info(
+                `Response to POST login with data ${JSON.stringify(
+                    response
+                )} | [transactionID: ${transactionid} | serviceID: ${serviceid}]`
+            );
+            return response;
+        } catch (err) {
             return {
-                status: error.status ? error.status : httpStatus.INTERNAL_SERVER_ERROR,
-                message: error.message,
-            }
+                status: err.status ? err.status : httpStatus.INTERNAL_SERVER_ERROR,
+                message: err.message,
+            };
         }
     }
 

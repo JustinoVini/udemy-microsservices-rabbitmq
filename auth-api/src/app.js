@@ -1,6 +1,7 @@
 import express from "express";
 import createInitialData from "./config/db/initialData.js";
 import userRoutes from "./modules/user/routes/userRoutes.js";
+import tracing from "./config/tracing.js";
 
 const app = express();
 const env = process.env;
@@ -15,6 +16,7 @@ app.get("/api/status", (req, res) => {
 });
 
 app.use(express.json());
+app.use(tracing);
 app.use(userRoutes);
 
 // Agora, a função createInitialData() será chamada quando o servidor começar a ouvir.
