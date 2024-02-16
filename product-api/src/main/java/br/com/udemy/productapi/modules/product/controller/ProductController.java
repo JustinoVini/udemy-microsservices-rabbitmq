@@ -2,7 +2,6 @@ package br.com.udemy.productapi.modules.product.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,13 +17,14 @@ import br.com.udemy.productapi.modules.product.dto.ProductRequest;
 import br.com.udemy.productapi.modules.product.dto.ProductResponse;
 import br.com.udemy.productapi.modules.product.dto.ProductSalesResponse;
 import br.com.udemy.productapi.modules.product.service.ProductService;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api/product")
+@AllArgsConstructor
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
     @PostMapping
     public ProductResponse save(@RequestBody ProductRequest request) {

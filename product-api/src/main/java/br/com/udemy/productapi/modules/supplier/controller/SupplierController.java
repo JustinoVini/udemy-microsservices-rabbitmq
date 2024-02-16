@@ -16,13 +16,14 @@ import br.com.udemy.productapi.config.exception.SuccessResponse;
 import br.com.udemy.productapi.modules.supplier.dto.SupplierRequest;
 import br.com.udemy.productapi.modules.supplier.dto.SupplierResponse;
 import br.com.udemy.productapi.modules.supplier.service.SupplierService;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api/supplier")
+@AllArgsConstructor
 public class SupplierController {
 
-    @Autowired
-    private SupplierService supplierService;
+    private final SupplierService supplierService;
 
     @PostMapping
     public SupplierResponse save(@RequestBody SupplierRequest request) {

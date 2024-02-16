@@ -5,7 +5,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import br.com.udemy.productapi.config.exception.SuccessResponse;
@@ -15,15 +15,15 @@ import br.com.udemy.productapi.modules.supplier.dto.SupplierRequest;
 import br.com.udemy.productapi.modules.supplier.dto.SupplierResponse;
 import br.com.udemy.productapi.modules.supplier.model.Supplier;
 import br.com.udemy.productapi.modules.supplier.repository.SupplierRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor(onConstructor_ = { @Lazy })
 public class SupplierService {
 
-    @Autowired
-    private SupplierRepository supplierRepository;
+    private final SupplierRepository supplierRepository;
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
     public List<SupplierResponse> findAll() {
         return supplierRepository

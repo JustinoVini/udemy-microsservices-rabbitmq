@@ -4,8 +4,8 @@ import checkToken from "./config/auth/checkToken.js";
 import { createInitialData } from "./config/db/initialData.js";
 import { connectMongoDb } from "./config/db/mongoDbConfig.js";
 import { connectRabbitMq } from "./config/rabbitmq/rabbitConfig.js";
-import Order from "./modules/sales/model/Order.js";
 import orderRoutes from "./modules/sales/routes/OrderRoutes.js";
+import tracing from "./config/tracing.js";
 
 const app = express();
 const env = process.env;
@@ -52,7 +52,7 @@ function getOkResponse() {
     }
 }
 
-// app.use(tracing);
+app.use(tracing);
 app.use(checkToken);
 app.use(orderRoutes);
 

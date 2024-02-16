@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import br.com.udemy.productapi.config.exception.SuccessResponse;
@@ -15,15 +16,15 @@ import br.com.udemy.productapi.modules.category.dto.CategoryResponse;
 import br.com.udemy.productapi.modules.category.model.Category;
 import br.com.udemy.productapi.modules.category.repository.CategoryRepository;
 import br.com.udemy.productapi.modules.product.service.ProductService;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor(onConstructor_ = { @Lazy })
 public class CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
     public CategoryResponse findByIdresponse(Integer id) {
         return CategoryResponse.of(findById(id));

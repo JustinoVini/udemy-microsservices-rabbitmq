@@ -1,7 +1,7 @@
 package br.com.udemy.productapi.modules.category.controller;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +15,14 @@ import br.com.udemy.productapi.config.exception.SuccessResponse;
 import br.com.udemy.productapi.modules.category.dto.CategoryRequest;
 import br.com.udemy.productapi.modules.category.dto.CategoryResponse;
 import br.com.udemy.productapi.modules.category.service.CategoryService;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api/category")
+@AllArgsConstructor
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @PostMapping
     public CategoryResponse save(@RequestBody CategoryRequest request) {
