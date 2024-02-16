@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class Supplier {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "NAME", nullable = false)

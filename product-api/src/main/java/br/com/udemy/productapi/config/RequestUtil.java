@@ -7,16 +7,15 @@ import br.com.udemy.productapi.config.exception.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class RequestUtil {
-    
-    public static HttpServletRequest getCurentRequest() {
+
+    public static HttpServletRequest getCurrentRequest() {
         try {
             return ((ServletRequestAttributes) RequestContextHolder
                     .getRequestAttributes())
                     .getRequest();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ValidationException("The current request could not be processed");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ValidationException("The current request could not be proccessed.");
         }
     }
-
 }
